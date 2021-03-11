@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="http://worrydream.com/Tangle/TangleKit/TangleKit.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Tangle document</title>
+
+    <!-- Tangle -->
+    <script type="text/javascript" src="Tangle.js"></script>
+
+    <!-- TangleKit (optional) -->
+    <link rel="stylesheet" href="TangleKit/TangleKit.css" type="text/css">
+    <script type="text/javascript" src="TangleKit/mootools.js"></script>
+    <script type="text/javascript" src="TangleKit/sprintf.js"></script>
+    <script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
+    <script type="text/javascript" src="TangleKit/TangleKit.js"></script>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="Examples/FilterExample.js"></script>
+    <script type="text/javascript" src="Examples/FilterExampleDSP.js"></script>
+    <!-- JQuery -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">   
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js">
+    </script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js">
+    </script>
+	<script>
+
+		function calculateMortgage(purchase_price_text, down_payment_text, mortgage_rate_text, mortgage_years_text) {
+			var purchase_price = parseFloat(purchase_price_text);
+			console.log(purchase_price);
+			var down_payment = parseFloat(down_payment_text);
+			console.log(down_payment);
+			var mortgage_rate_pre = parseFloat(mortgage_rate_text);
+			var mortgage_rate = mortgage_rate_pre/100;
+			console.log(mortgage_rate);
+			var mortgage_years = parseFloat(mortgage_years_text);
+			console.log(mortgage_years);
+
+			var start1 = parseFloat(mortgage_rate/12);
+			console.log(start1);
+			var start2 = parseFloat(start1 + 1);
+			console.log(start2);
+			var start3 = parseFloat(mortgage_years * 12);
+			console.log(start3);
+			var start4 = parseFloat(start2 ** (-1 * start3));
+			console.log(start4);
+			var start5 = parseFloat(1 - start4);
+			console.log(start5);
+			var start6 = parseFloat(start1/start5);
+			console.log(start6);
+			var ending = parseFloat(start6 * (purchase_price - down_payment));
+			console.log(ending);
+			var rounded_ending = ending.toFixed(2);
+
+			return rounded_ending;
+		}
+
+		function calculateMonthlyCashOutflow(monthly_mortgage_text, annual_tax_text, monthly_utilities_text, monthly_maintenance_text, annual_insurance_text) {
+			var tax_annual = parseFloat(annual_tax_text);
+			console.log(tax_annual);
+			var tax_monthly = tax_annual/12;
+			var utilities_monthly = parseFloat(monthly_utilities_text);
+			console.log(utilities_monthly);
+			var maintenance_monthly = parseFloat(monthly_maintenance_text);
+			console.log(maintenance_monthly);
+			var insurance_annual = parseFloat(annual_insurance_text);
+			console.log(insurance_annual);
+			var insurance_monthly = insurance_annual/12;
+			var monthly_mortgage = parseFloat(monthly_mortgage_text);
+			var monthly_cashflow = monthly_mortgage + tax_monthly + utilities_monthly + maintenance_monthly + insurance_monthly;
+
+			return monthly_cashflow.toFixed(2);
+		}
+
+		function getPurchasePrice() {
+			var purchase_price_text = document.getElementById("pPrice").value;
+
+			return parseFloat(purchase_price_text);
+		}
+		function getDownPayment() {
+			var down_payment_text = document.getElementById("dPayment").value;
+
+			return parseFloat(down_payment_text);
+		}
+		function getMortgageRate() {
+			var mortgage_rate_text = document.getElementById("mRate").value;
+
+			return parseFloat(mortgage_rate_text);
+		}
+		function getMortgageYears() {
+			var mortgage_years_text = document.getElementById("mYears").value;
+
+			return parseFloat(mortgage_years_text);
+		}
+		function getAnnualTax() {
+			var annual_tax_text = document.getElementById("tax").value;
+
+			return parseFloat(annual_tax_text);
+		}
+		function getMonthlyUtil() {
+			var monthly_utilities_text = document.getElementById("utilities").value;
+
+			return parseFloat(monthly_utilities_text);
+		}
+		function getMonthlyMaint() {
+			var monthly_maintenance_text = document.getElementById("maintenance").value;
+
+			return parseFloat(monthly_maintenance_text);
+		}
+		function getAnnualInsurance() {
+			var annual_insurance_text = document.getElementById("insurance").value;
+
+			return parseFloat(annual_insurance_text);
+		}
+
+        function addFields(){
+            var example = document.getElementById("example");
+
+            while (example.hasChildNodes()) {
+                example.removeChild(example.lastChild);
+            }
+
+
+            $("#example").append("<p id='example'> When your purchase price is <span data-var='purchase_price_text' class='TKAdjustableNumber' data-min='0' data-max='1500000' data-format='dollarsWithCommas'></span>, and your down payment is <span data-var='down_payment_text' class='TKAdjustableNumber' data-min='-10000' data-max='100000' data-format='dollarsWithCommas'></span>, and your mortgage rate is <span data-var='mortgage_rate_text' class='TKAdjustableNumber' data-min='1.0' data-max='10.0' data-format='percent' data-step='0.01'></span>, and the term of your mortgage is <span data-var='mortgage_years_text' class='TKAdjustableNumber' data-min='5' data-max='20'></span> years, your monthly mortgage will be <b>$<span data-var='monthly_mortgage_text'></span></b>. Your monthly cash flow dependent on an annual tax of <span data-var='annual_tax_text' class='TKAdjustableNumber' data-min='-10000' data-max='1000000' data-format='dollarsWithCommas'></span>, monthly utilities cost of <span data-var='monthly_utilities_text' class='TKAdjustableNumber' data-min='0' data-max='10000' data-format='dollarsWithCommas'></span>, monthly maintenance cost of <span data-var='monthly_maintenance_text' class='TKAdjustableNumber' data-min='0' data-max='10000' data-format='dollarsWithCommas'></span>, and an annual insurance cost of <span data-var='annual_insurance_text' class='TKAdjustableNumber' data-min='-10000' data-max='1000000' data-format='dollarsWithCommas'></span> would be: <b>$<span data-var='monthly_cashflow_text'></span></b> </p>");
+            
+
+            example.appendChild(document.createElement(setUpTangle()));
+        }
+        function setUpTangle () {
+			var one = document.getElementById("example_1_content");
+			one.style.display = "none";
+			var two = document.getElementById("example_2_content");
+			two.style.display = "none";
+			var three = document.getElementById("example_3_content");
+			three.style.display = "none";	
+			var four = document.getElementById("cash_flow");
+			four.style.display = "none";
+			var five = document.getElementById("example_4_content");
+			five.style.display = "none";
+
+        	var element1 = document.getElementById("example1");
+        	var tangle = new Tangle(element1, {
+			    initialize: function () { this.cookies = 3; },
+			    update:     function () { this.calories = (this.cookies * 50).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+			});
+        	var element2 = document.getElementById("example2");
+        	var tangle = new Tangle(element2, {
+			    initialize: function () { this.save_amount = 5;
+			    						  this.saving_days = 10; },
+			    update:     function () { this.monthly_savings_result = (this.save_amount * this.saving_days).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+			});
+        	var element4 = document.getElementById("example4");
+        	var tangle = new Tangle(element4, {
+			    initialize: function () { 
+			    	this.goal_for_month = 1230; 
+			    	this.savings_sofar = 500;
+			    },
+			    update:     function () { 
+			    	var width = Math.round((this.savings_sofar / this.goal_for_month) * 100);
+			    	Tangle.classes.StretchyBar.update(document.getElementById("myBar"), width);
+			    }
+			});
+            var element = document.getElementById("example");
+            var tangle = new Tangle(element, {
+                initialize: function () {
+                	/*
+                    this.purchase_price_text = getPurchasePrice();
+                    this.down_payment_text = getDownPayment();
+                    this.mortgage_rate_text = getMortgageRate();
+                    this.mortgage_years_text = getMortgageYears();
+                    this.annual_tax_text = getAnnualTax();
+                    this.monthly_utilities_text = getMonthlyUtil();
+                    this.monthly_maintenance_text = getMonthlyMaint();
+                    this.annual_insurance_text = getAnnualInsurance();
+                    */
+
+
+                    this.purchase_price_2 = 300000;
+                    this.down_payment_2 = 60000;
+                    this.mortgage_rate_2 = 6.50;
+                    this.mortgage_years_2 = 15;
+                    this.annual_tax_2 = 8000;
+                    this.monthly_utilities_2 = 800;
+                    this.monthly_maintenance_2 = 500;
+                    this.annual_insurance_2 = 1000;
+
+                },
+                update: function () {
+                	/*
+					this.monthly_mortgage_text = calculateMortgage(this.purchase_price_text, this.down_payment_text, this.mortgage_rate_text, this.mortgage_years_text);
+					this.monthly_cashflow_text = calculateMonthlyCashOutflow(this.monthly_mortgage_text, this.annual_tax_text, this.monthly_utilities_text, this.monthly_maintenance_text, this.annual_insurance_text);
+					*/
+
+					this.monthly_mortgage_2 = calculateMortgage(this.purchase_price_2, this.down_payment_2, this.mortgage_rate_2, this.mortgage_years_2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+					this.monthly_cashflow_2 = calculateMonthlyCashOutflow(this.monthly_mortgage_2, this.annual_tax_2, this.monthly_utilities_2, this.monthly_maintenance_2, this.annual_insurance_2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+            });
+        }
+        function showExample1() {
+		  var x = document.getElementById("example_1_content");
+		  if (x.style.display === "none") {
+		    $(x).fadeIn("slow");
+		  } else {
+		    $(x).fadeOut("slow");
+		  }
+		}
+        function showExample2() {
+		  var x = document.getElementById("example_2_content");
+		  if (x.style.display === "none") {
+		    $(x).fadeIn("slow");
+		  } else {
+		    $(x).fadeOut("slow");
+		  }
+		}
+        function showExample3() {
+		  var x = document.getElementById("example_3_content");
+		  if (x.style.display === "none") {
+		    $(x).fadeIn("slow");
+		  } else {
+		    $(x).fadeOut("slow");
+		  }
+		}
+        function showCashFlow() {
+		  var x = document.getElementById("cash_flow");
+		  if (x.style.display === "none") {
+		    $(x).fadeIn("slow");
+		  } else {
+		    $(x).fadeOut("slow");
+		  }
+		}
+        function showExample4() {
+		  var x = document.getElementById("example_4_content");
+		  if (x.style.display === "none") {
+		    $(x).fadeIn("slow");
+		  } else {
+		    $(x).fadeOut("slow");
+		  }
+		}
+	</script>
+	<style>
+		h1 { font-family: "Helvetica Neue", Helvetica, sans-serif; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px; } 
+		h3 { font-family: "Helvetica Neue", Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 15.4px; } 
+		p { font-family: "Helvetica Neue", Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px; } 
+		body{
+			margin: 0;
+			padding: 0;
+			background-color: #f4f4f4;
+		}
+		a:link {
+		  color: #1f4a54;
+		  background-color: transparent;
+		  font-weight: bold;
+		  text-decoration: none;
+		}
+
+		a:visited {
+		  color: #1f4a54;
+		  background-color: transparent;
+		  font-weight: bold;
+		  text-decoration: none;
+		}
+
+		a:hover {
+		  color: #1f4a54;
+		  background-color: transparent;
+		  font-weight: bold;
+		  text-decoration: underline;
+		}
+
+		a:active {
+		  color: #1f4a54;
+		  background-color: transparent;
+		  font-weight: bold;
+		  text-decoration: underline;
+		}
+		.header-font{
+			font-size: 50px;
+			font-weight: bold;
+			font-family: "Helvetica Neue", Helvetica, sans-serif;
+		}
+		.helvetica{
+			font-family: "Helvetica Neue", Helvetica, sans-serif;
+		}
+		.helvetica-normal{
+			font-family: "Helvetica Neue", Helvetica, sans-serif;
+			font-size: 20px;
+		}
+		.white{
+			color: #ffffff;
+		}
+		.small{
+			font-size: 10px;
+		}
+		.lufthansa_blue {
+			color: #0A1D3D;
+		}
+		.lufthansa_old_orange {
+			color: #F9BA00;
+		}
+		.lufthansa_old_blue {
+			color: #00235F;
+		}
+		.mint_green {
+			color: #88d3d3;
+		}
+		.dark_green{
+			color: #194545;
+		}
+		.light_green {
+			color: #85bf4b;
+		}
+		.mint_green_main_div {
+			background-color: #88d3d3;
+			width: 70%;
+			margin: auto;
+			padding-left: 100px;
+			padding-right: 100px;
+		}
+		.bluer_green_div {
+			vertical-align: top;
+			background: #50a3bf;
+			height: auto;
+			margin-bottom: 50px;
+			padding: 30px;
+		}
+
+		.lufthansa_old_orange_div {
+			background-color: #F9BA00;
+			height: 100px;
+			margin: 0px;
+			padding: 0px;
+			vertical-align: top;
+		}
+		.lufthansa_old_orange_main_div {
+			background-color: #F9BA00;
+			width: 70%;
+			margin: auto;
+			padding-left: 100px;
+			padding-right: 100px;
+		}
+		.lufthansa_old_blue_div {
+			vertical-align: top;
+			background: #00235F;
+			height: auto;
+			margin-bottom: 20px;
+			padding: 30px;
+		}
+		.center {
+			text-align: center;
+		}
+		.center-text {
+			text-align: center;
+		}
+		.emphasize-div{
+			width:90%;
+			background:#ffffff;
+			margin:20px auto;
+			padding: 20px;
+		}
+		.bold{
+			font-weight: bold;
+		}
+		.main-content{
+			padding: 20px;
+		}
+		#introduction{
+			margin-bottom: 70px;
+		}
+		#example_1_content{ 
+			margin-bottom: 70px; 
+		}
+		#example_2_content{ 
+			margin-bottom: 70px; 
+		}
+		#example_3_content{ 
+			margin-bottom: 70px;
+		}
+		#example4{ 
+			margin-bottom: 70px; 
+		}
+		#myProgress {
+		  width: 70%;
+		  background-color: grey;
+	      -moz-border-radius: 25px;
+	      -webkit-border-radius: 25px;
+		  border-radius: 25px;
+		}
+
+		#myBar {
+		  width: 1%;
+		  height: 30px;
+		  background-color: #50bfbf;
+		  padding-top: 10px;
+		  border-top-left-radius: 20px;
+		  border-bottom-left-radius: 20px;
+		  max-width: 100%;
+		}
+
+		/*==================================================
+		 * Effect 2
+		 * ===============================================*/
+		.effect2
+		{
+		  position: relative;
+		}
+		.effect2:before, .effect2:after
+		{
+		  z-index: -1;
+		  position: absolute;
+		  content: "";
+		  bottom: 15px;
+		  left: 10px;
+		  width: 50%;
+		  top: 80%;
+		  max-width:300px;
+		  background: #777;
+		  -webkit-box-shadow: 0 15px 10px #777;
+		  -moz-box-shadow: 0 15px 10px #777;
+		  box-shadow: 0 15px 10px #777;
+		  -webkit-transform: rotate(-3deg);
+		  -moz-transform: rotate(-3deg);
+		  -o-transform: rotate(-3deg);
+		  -ms-transform: rotate(-3deg);
+		  transform: rotate(-3deg);
+		}
+		.effect2:after
+		{
+		  -webkit-transform: rotate(3deg);
+		  -moz-transform: rotate(3deg);
+		  -o-transform: rotate(3deg);
+		  -ms-transform: rotate(3deg);
+		  transform: rotate(3deg);
+		  right: 10px;
+		  left: auto;
+		}
+		.effect1{
+			-webkit-box-shadow: 0 10px 6px -6px #777;
+			-moz-box-shadow: 0 10px 6px -6px #777;
+		    box-shadow: 0 10px 6px -6px #777;
+		}
+		.card {
+		  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+		.box {
+			width:70%;
+			height:200px;
+			background:#FFF;
+			margin:40px auto;
+		}
+	</style>
+</head>
+<body onload="setUpTangle();">
+	<div class="mint_green_main_div card helvetica">
+		<div class="bluer_green_div card center"><span class="white header-font">Reactive Financial Documents</span>
+		<br>
+		<span class="white small">Research done by Natasha Simadibrata, Columbia College '21, under the guidance of Professor R.A. Farrokhnia, Executive Director of <a href="https://www8.gsb.columbia.edu/fintech/about">Advanced Projects & Applied Research in Fintech.</a></span>
+		</div>
+		<div id="introduction" class="dark_green">
+			This independent research is focused on the creation of dynamic financial documents infused with accessible language to aid individuals in improving their financial literacy.
+			<br>
+			<br>
+			We specifically delved into a Javascript library called <a href="http://worrydream.com/Tangle/">Tangle</a> created by Bret Victor, which enables us to include reactive features in our document.
+			<br>
+			<br>
+			What does Tangle look like? <a href="javascript:showExample1()">Let's check it out!</a>
+		</div>
+		<!--
+		<div class="main-content">
+
+			<div class="center-text">
+
+			</div>
+		
+		Purchase Price <a target="_blank" href="#" title="The total cost to buy the house."><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="10px"/></a>: 
+		<input id="pPrice"></input>
+		<br/>
+		<br/>
+		Down Payment <a target="_blank" href="#" title="An initial up-front partial payment for the purchase of the house, usually in cash."><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="10px"/></a>:
+		<input id="dPayment"></input>
+		<br/>
+		<br/>
+		Mortgage Rate <a target="_blank" href="#" title="The rate of interest charged on a mortgage."><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="10px"/></a>: 
+		<input id="mRate"></input>
+		<br/>
+		<br/>
+		Mortgage Term (Years) <a target="_blank" href="#" title="The length of time over which the borrower is agreeing to abide by the conditions of the mortgage."><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="10px"/></a>: 
+		<input id="mYears"></input>
+		<br/>
+		<br/>
+		Tax (Annual) <a target="_blank" href="#" title="The length of time over which the borrower is agreeing to abide by the conditions of the mortgage."><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="10px"/></a>: 
+		<input id="tax"></input>
+		<br/>
+		<br/>
+		Utilities (Additional Monthly) <a target="_blank" href="#" title="The length of time over which the borrower is agreeing to abide by the conditions of the mortgage."><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="10px"/></a>: 
+		<input id="utilities"></input>
+		<br/>
+		<br/>
+		Maintenance (Additional Monthly) <a target="_blank" href="#" title="The length of time over which the borrower is agreeing to abide by the conditions of the mortgage."><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="10px"/></a>: 
+		<input id="maintenance"></input>
+		<br/>
+		<br/>
+		Insurance (Annual) <a target="_blank" href="#" title="The length of time over which the borrower is agreeing to abide by the conditions of the mortgage."><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="10px"/></a>: 
+		<input id="insurance"></input>
+		<br/>
+		<br/>
+		<button onclick="addFields()">Calculate!</button>
+		
+		</div>
+		--->
+		<div id="example_1_content">
+			<div class="bold dark_green">Example 1:</div>
+			<br>
+			<span class="dark_green">Here is a very simple Tangle example involving a use case about cookies and calories.</span>
+			<div id="example1" class="emphasize-div effect1">
+				<p>When you eat <span data-var="cookies" class="TKAdjustableNumber"> cookies</span>, you consume <span data-var="calories"> calories</span>.</p>
+			</div>
+			<span class="dark_green">How can we utilize Tangle to help us understand a financial concept? <a href="javascript:showExample2()">Let's find out!</a></span>
+		</div>
+		<div id="example_2_content">
+			<div class="bold dark_green">Example 2:</div>
+			<br>
+			<span class="dark_green">Here is a simple Tangle example involving a financial concept regarding monthly savings.</span> 
+			<div id="example2" class="emphasize-div effect1">
+				<p>If in a month, you save $<span data-var="save_amount" class="TKNumberField"></span> a day for <span data-var="saving_days" class="TKAdjustableNumber" data-min="0" data-max="31" data-step="1"></span> days, at the end of the month you will have $<span class="bold" data-var='monthly_savings_result'></span>.</p>
+			</div>
+			<span class="dark_green">What if we wanted to expand our financial example to something more complicated? Let's try a reactive version of a <a href="javascript:showExample3()">simple mortgage case!</a></span>
+		</div>
+		<div id="example_3_content">
+			<div class="bold dark_green">Example 3:</div>
+			<br>
+			<span class="dark_green">Now we've taken everything we've discovered with Tangle to create a simple monthly mortgage calculator.</span> 
+			<div id ="example">
+				<div id="mortgage_flow" class="emphasize-div effect1">
+					<p> <span class="bold">If you stumbled on this site, you're probably very confused about purchasing a home of your own. Fret not, we are here to make the process simpler for you!</span>
+					<br>
+					<br>
+					Let's first think about the <span class="lufthansa_old_blue bold">purchase price</span>, which is how much you have to pay to buy the property you have in mind. The listing amounts to: $<span data-var="purchase_price_2" class="TKNumberField"></span>. With that in mind, you also have to think of a plan to pay a <span class="lufthansa_old_blue bold">down payment</span>, which is how much you are paying from your own savings to buy the property (your mortgage lender will provide the rest as a mortgage loan). You have determined to pay out of your packet an amount of $<span data-var="down_payment_2" class="TKNumberField"></span>. 
+					<br>
+					<br>
+					Once your mortgage lender, usually a bank, gives you a mortgage term, you will have been told of your <span class="lufthansa_old_blue bold">rate of interest</span>, which is the interest rate on your mortgage that your lender is providing you (expressed as a percentage): <span data-var="mortgage_rate_2" class="TKAdjustableNumber" data-format='twoDecimals' data-min="2.50" data-max="7.50" data-step='0.10'></span>%. Another important part of your agreement with your lender is the <span class="lufthansa_old_blue bold">term of your mortgage</span>, or the length of time over which the borrower is agreeing to abide by the conditions of the mortgage. Both of you have agreed to a mortgage term of <span data-var="mortgage_years_2" class="TKAdjustableNumber" data-min="5" data-max="30" data-step='5'></span> years.
+					<br>
+					<br>
+					Now that we've figured out those four important factors, we can determine your <span class="lufthansa_old_blue bold">monthly mortgage payments</span> to be a total of <b>$<span data-var="monthly_mortgage_2"></span></b>. 
+					</p>
+				</div>
+				<span class="dark_green">Unfortunately, this isn't all you have to keep in mind regarding the actual payments you will be making per month on this new home. You will also have to think about other important expenses: annual tax on your home, monthly utilities fees, monthly maintenance fees, and annual insurance cost. Let's see how they play into <a href="javascript:showCashFlow()">our calculations!</a></span>
+				<br>
+				<div id="cash_flow">
+				<div class="emphasize-div effect1">
+					<p>
+					Your <span class="lufthansa_old_blue bold">monthly cash flow</span> is dependent on an <span class="lufthansa_old_blue bold">annual tax</span>. The annual tax is the total dollar amount of real estate taxes you will have to pay annually once you purchase your property. Your agent or broker should be able to tell you your annual real estate tax obligation. Keep in mind that your total annual real estate tax may vary a little from year to year, and its payment is obligatory (otherwise you might lose your home!). You have discovered that you will have to pay an annual tax of $<span data-var="annual_tax_2" class="TKNumberField"></span> on your home. 
+					<br>
+					<br>
+					You will also have to keep in mind your <span class="lufthansa_old_blue bold">monthly utilities</span> fees. This is the total monthly dollars you will pay for basic utility services such as electricity, water, gas – you may even want to consider other services such as cable, telephone, internet, and others. As you are contemplating buying a property, it would be challenging to know the exact figure for all your utilities. You can ask the current owner to provide you with an estimate, and you can adjust accordingly for other variables (the number of people living in the household, how much time they would spend at home, etc.). Your home has the monthly utilities fees of $<span data-var="monthly_utilities_2" class="TKNumberField"></span>.  
+					<br>
+					<br>
+					Next, you will also have to find out what your <span class="lufthansa_old_blue bold">monthly maintenance</span> cost is. Maintenance is often a hidden cost of homeownership, and is necessary for the upkeep of the property and proper functioning of it. The estimated maintenance cost varies greatly from one property to the next, and is typically a function of how old a property is, how well-maintained it has been by prior owners (including prior renovations), its location, and much more. Your broker could help you with a proper estimate. This amounts to: $<span data-var="monthly_maintenance_2" class="TKNumberField"></span>. 
+					<br>
+					<br>
+					The last thing you have to keep in mind is your <span class="lufthansa_old_blue bold">annual insurance</span> fees. Insurance is an essential part of homeownership, and your mortgage provider will require you to have one for your new home. This insurance generally protects you against catastrophes such as fires, but coverage varies greatly from one location to another and policies may not cover certain types of events (for example, protection against flooding typically requires a separate policy). You can ask the current owners of how much they pay to get an estimate, and be sure to investigate various insurance providers operating in the State you are buying your property in. This comes to an annual fee of $<span data-var="annual_insurance_2" class="TKNumberField"></span>. 
+					<br>
+					<br>
+					When we take all of these expenses into account, the <span class="lufthansa_old_blue bold">total monthly payments</span> you will be making on your new home, added with your monthly mortgage payments, would be: <b>$<span data-var='monthly_cashflow_2'></span></b> 
+					<br>
+					<br>
+					We hope this explanation was helpful! Good luck with your potential new purchase :)</p>
+				</div>
+				<span class="dark_green">Oh wait, <a href="javascript:showExample4()">there's more?</a></span>
+				</div>
+			</div>	
+		</div>
+		<div id="example_4_content">
+			<div class="bold dark_green">Example 4:</div>
+			<br>
+			<span class="dark_green">We can also manipulate graphs/bars with Tangle:</span>
+			<div id="example4" class="emphasize-div effect1">
+				<p>My goal is to save $<span data-var="goal_for_month" class="TKAdjustableNumber" data-min="0" data-max="2000" data-step="5"></span> by the end of the month. I currently have $<span data-var="savings_sofar" class="TKAdjustableNumber" data-min="0" data-max="2000" data-step="5"></span> in my bank account so far.
+				<br>
+				<br>
+				My savings progress tracker:
+				</p>
+				<div id="myProgress">
+				  <div id="myBar" class="white center">20%</div>
+				</div>
+				<br>
+			</div>
+			<a href="#" onclick="window.location.reload(true);">Restart?</a>
+			<br>
+		</div>
+
+		<br>
+		<br>
+
+
+	</div>
+
+</body>
+</html>
