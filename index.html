@@ -23,437 +23,14 @@
     </script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js">
     </script>
-	<script>
-
-		function calculateMortgage(purchase_price_text, down_payment_text, mortgage_rate_text, mortgage_years_text) {
-			var purchase_price = parseFloat(purchase_price_text);
-			console.log(purchase_price);
-			var down_payment = parseFloat(down_payment_text);
-			console.log(down_payment);
-			var mortgage_rate_pre = parseFloat(mortgage_rate_text);
-			var mortgage_rate = mortgage_rate_pre/100;
-			console.log(mortgage_rate);
-			var mortgage_years = parseFloat(mortgage_years_text);
-			console.log(mortgage_years);
-
-			var start1 = parseFloat(mortgage_rate/12);
-			console.log(start1);
-			var start2 = parseFloat(start1 + 1);
-			console.log(start2);
-			var start3 = parseFloat(mortgage_years * 12);
-			console.log(start3);
-			var start4 = parseFloat(start2 ** (-1 * start3));
-			console.log(start4);
-			var start5 = parseFloat(1 - start4);
-			console.log(start5);
-			var start6 = parseFloat(start1/start5);
-			console.log(start6);
-			var ending = parseFloat(start6 * (purchase_price - down_payment));
-			console.log(ending);
-			var rounded_ending = ending.toFixed(2);
-
-			return rounded_ending;
-		}
-
-		function calculateMonthlyCashOutflow(monthly_mortgage_text, annual_tax_text, monthly_utilities_text, monthly_maintenance_text, annual_insurance_text) {
-			var tax_annual = parseFloat(annual_tax_text);
-			console.log(tax_annual);
-			var tax_monthly = tax_annual/12;
-			var utilities_monthly = parseFloat(monthly_utilities_text);
-			console.log(utilities_monthly);
-			var maintenance_monthly = parseFloat(monthly_maintenance_text);
-			console.log(maintenance_monthly);
-			var insurance_annual = parseFloat(annual_insurance_text);
-			console.log(insurance_annual);
-			var insurance_monthly = insurance_annual/12;
-			var monthly_mortgage = parseFloat(monthly_mortgage_text);
-			var monthly_cashflow = monthly_mortgage + tax_monthly + utilities_monthly + maintenance_monthly + insurance_monthly;
-
-			return monthly_cashflow.toFixed(2);
-		}
-
-		function getPurchasePrice() {
-			var purchase_price_text = document.getElementById("pPrice").value;
-
-			return parseFloat(purchase_price_text);
-		}
-		function getDownPayment() {
-			var down_payment_text = document.getElementById("dPayment").value;
-
-			return parseFloat(down_payment_text);
-		}
-		function getMortgageRate() {
-			var mortgage_rate_text = document.getElementById("mRate").value;
-
-			return parseFloat(mortgage_rate_text);
-		}
-		function getMortgageYears() {
-			var mortgage_years_text = document.getElementById("mYears").value;
-
-			return parseFloat(mortgage_years_text);
-		}
-		function getAnnualTax() {
-			var annual_tax_text = document.getElementById("tax").value;
-
-			return parseFloat(annual_tax_text);
-		}
-		function getMonthlyUtil() {
-			var monthly_utilities_text = document.getElementById("utilities").value;
-
-			return parseFloat(monthly_utilities_text);
-		}
-		function getMonthlyMaint() {
-			var monthly_maintenance_text = document.getElementById("maintenance").value;
-
-			return parseFloat(monthly_maintenance_text);
-		}
-		function getAnnualInsurance() {
-			var annual_insurance_text = document.getElementById("insurance").value;
-
-			return parseFloat(annual_insurance_text);
-		}
-
-        function addFields(){
-            var example = document.getElementById("example");
-
-            while (example.hasChildNodes()) {
-                example.removeChild(example.lastChild);
-            }
-
-
-            $("#example").append("<p id='example'> When your purchase price is <span data-var='purchase_price_text' class='TKAdjustableNumber' data-min='0' data-max='1500000' data-format='dollarsWithCommas'></span>, and your down payment is <span data-var='down_payment_text' class='TKAdjustableNumber' data-min='-10000' data-max='100000' data-format='dollarsWithCommas'></span>, and your mortgage rate is <span data-var='mortgage_rate_text' class='TKAdjustableNumber' data-min='1.0' data-max='10.0' data-format='percent' data-step='0.01'></span>, and the term of your mortgage is <span data-var='mortgage_years_text' class='TKAdjustableNumber' data-min='5' data-max='20'></span> years, your monthly mortgage will be <b>$<span data-var='monthly_mortgage_text'></span></b>. Your monthly cash flow dependent on an annual tax of <span data-var='annual_tax_text' class='TKAdjustableNumber' data-min='-10000' data-max='1000000' data-format='dollarsWithCommas'></span>, monthly utilities cost of <span data-var='monthly_utilities_text' class='TKAdjustableNumber' data-min='0' data-max='10000' data-format='dollarsWithCommas'></span>, monthly maintenance cost of <span data-var='monthly_maintenance_text' class='TKAdjustableNumber' data-min='0' data-max='10000' data-format='dollarsWithCommas'></span>, and an annual insurance cost of <span data-var='annual_insurance_text' class='TKAdjustableNumber' data-min='-10000' data-max='1000000' data-format='dollarsWithCommas'></span> would be: <b>$<span data-var='monthly_cashflow_text'></span></b> </p>");
-            
-
-            example.appendChild(document.createElement(setUpTangle()));
-        }
-        function setUpTangle () {
-			var one = document.getElementById("example_1_content");
-			one.style.display = "none";
-			var two = document.getElementById("example_2_content");
-			two.style.display = "none";
-			var three = document.getElementById("example_3_content");
-			three.style.display = "none";	
-			var four = document.getElementById("cash_flow");
-			four.style.display = "none";
-			var five = document.getElementById("example_4_content");
-			five.style.display = "none";
-
-        	var element1 = document.getElementById("example1");
-        	var tangle = new Tangle(element1, {
-			    initialize: function () { this.cookies = 3; },
-			    update:     function () { this.calories = (this.cookies * 50).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-			});
-        	var element2 = document.getElementById("example2");
-        	var tangle = new Tangle(element2, {
-			    initialize: function () { this.save_amount = 5;
-			    						  this.saving_days = 10; },
-			    update:     function () { this.monthly_savings_result = (this.save_amount * this.saving_days).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-			});
-        	var element4 = document.getElementById("example4");
-        	var tangle = new Tangle(element4, {
-			    initialize: function () { 
-			    	this.goal_for_month = 1230; 
-			    	this.savings_sofar = 500;
-			    },
-			    update:     function () { 
-			    	var width = Math.round((this.savings_sofar / this.goal_for_month) * 100);
-			    	Tangle.classes.StretchyBar.update(document.getElementById("myBar"), width);
-			    }
-			});
-            var element = document.getElementById("example");
-            var tangle = new Tangle(element, {
-                initialize: function () {
-                	/*
-                    this.purchase_price_text = getPurchasePrice();
-                    this.down_payment_text = getDownPayment();
-                    this.mortgage_rate_text = getMortgageRate();
-                    this.mortgage_years_text = getMortgageYears();
-                    this.annual_tax_text = getAnnualTax();
-                    this.monthly_utilities_text = getMonthlyUtil();
-                    this.monthly_maintenance_text = getMonthlyMaint();
-                    this.annual_insurance_text = getAnnualInsurance();
-                    */
-
-
-                    this.purchase_price_2 = 300000;
-                    this.down_payment_2 = 60000;
-                    this.mortgage_rate_2 = 6.50;
-                    this.mortgage_years_2 = 15;
-                    this.annual_tax_2 = 8000;
-                    this.monthly_utilities_2 = 800;
-                    this.monthly_maintenance_2 = 500;
-                    this.annual_insurance_2 = 1000;
-
-                },
-                update: function () {
-                	/*
-					this.monthly_mortgage_text = calculateMortgage(this.purchase_price_text, this.down_payment_text, this.mortgage_rate_text, this.mortgage_years_text);
-					this.monthly_cashflow_text = calculateMonthlyCashOutflow(this.monthly_mortgage_text, this.annual_tax_text, this.monthly_utilities_text, this.monthly_maintenance_text, this.annual_insurance_text);
-					*/
-
-					this.monthly_mortgage_2 = calculateMortgage(this.purchase_price_2, this.down_payment_2, this.mortgage_rate_2, this.mortgage_years_2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-					this.monthly_cashflow_2 = calculateMonthlyCashOutflow(this.monthly_mortgage_2, this.annual_tax_2, this.monthly_utilities_2, this.monthly_maintenance_2, this.annual_insurance_2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
-            });
-        }
-        function showExample1() {
-		  var x = document.getElementById("example_1_content");
-		  if (x.style.display === "none") {
-		    $(x).fadeIn("slow");
-		  } else {
-		    $(x).fadeOut("slow");
-		  }
-		}
-        function showExample2() {
-		  var x = document.getElementById("example_2_content");
-		  if (x.style.display === "none") {
-		    $(x).fadeIn("slow");
-		  } else {
-		    $(x).fadeOut("slow");
-		  }
-		}
-        function showExample3() {
-		  var x = document.getElementById("example_3_content");
-		  if (x.style.display === "none") {
-		    $(x).fadeIn("slow");
-		  } else {
-		    $(x).fadeOut("slow");
-		  }
-		}
-        function showCashFlow() {
-		  var x = document.getElementById("cash_flow");
-		  if (x.style.display === "none") {
-		    $(x).fadeIn("slow");
-		  } else {
-		    $(x).fadeOut("slow");
-		  }
-		}
-        function showExample4() {
-		  var x = document.getElementById("example_4_content");
-		  if (x.style.display === "none") {
-		    $(x).fadeIn("slow");
-		  } else {
-		    $(x).fadeOut("slow");
-		  }
-		}
-	</script>
-	<style>
-		h1 { font-family: "Helvetica Neue", Helvetica, sans-serif; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px; } 
-		h3 { font-family: "Helvetica Neue", Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 15.4px; } 
-		p { font-family: "Helvetica Neue", Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px; } 
-		body{
-			margin: 0;
-			padding: 0;
-			background-color: #f4f4f4;
-		}
-		a:link {
-		  color: #1f4a54;
-		  background-color: transparent;
-		  font-weight: bold;
-		  text-decoration: none;
-		}
-
-		a:visited {
-		  color: #1f4a54;
-		  background-color: transparent;
-		  font-weight: bold;
-		  text-decoration: none;
-		}
-
-		a:hover {
-		  color: #1f4a54;
-		  background-color: transparent;
-		  font-weight: bold;
-		  text-decoration: underline;
-		}
-
-		a:active {
-		  color: #1f4a54;
-		  background-color: transparent;
-		  font-weight: bold;
-		  text-decoration: underline;
-		}
-		.header-font{
-			font-size: 50px;
-			font-weight: bold;
-			font-family: "Helvetica Neue", Helvetica, sans-serif;
-		}
-		.helvetica{
-			font-family: "Helvetica Neue", Helvetica, sans-serif;
-		}
-		.helvetica-normal{
-			font-family: "Helvetica Neue", Helvetica, sans-serif;
-			font-size: 20px;
-		}
-		.white{
-			color: #ffffff;
-		}
-		.small{
-			font-size: 10px;
-		}
-		.lufthansa_blue {
-			color: #0A1D3D;
-		}
-		.lufthansa_old_orange {
-			color: #F9BA00;
-		}
-		.lufthansa_old_blue {
-			color: #00235F;
-		}
-		.mint_green {
-			color: #88d3d3;
-		}
-		.dark_green{
-			color: #194545;
-		}
-		.light_green {
-			color: #85bf4b;
-		}
-		.mint_green_main_div {
-			background-color: #88d3d3;
-			width: 70%;
-			margin: auto;
-			padding-left: 100px;
-			padding-right: 100px;
-		}
-		.bluer_green_div {
-			vertical-align: top;
-			background: #50a3bf;
-			height: auto;
-			margin-bottom: 50px;
-			padding: 30px;
-		}
-
-		.lufthansa_old_orange_div {
-			background-color: #F9BA00;
-			height: 100px;
-			margin: 0px;
-			padding: 0px;
-			vertical-align: top;
-		}
-		.lufthansa_old_orange_main_div {
-			background-color: #F9BA00;
-			width: 70%;
-			margin: auto;
-			padding-left: 100px;
-			padding-right: 100px;
-		}
-		.lufthansa_old_blue_div {
-			vertical-align: top;
-			background: #00235F;
-			height: auto;
-			margin-bottom: 20px;
-			padding: 30px;
-		}
-		.center {
-			text-align: center;
-		}
-		.center-text {
-			text-align: center;
-		}
-		.emphasize-div{
-			width:90%;
-			background:#ffffff;
-			margin:20px auto;
-			padding: 20px;
-		}
-		.bold{
-			font-weight: bold;
-		}
-		.main-content{
-			padding: 20px;
-		}
-		#introduction{
-			margin-bottom: 70px;
-		}
-		#example_1_content{ 
-			margin-bottom: 70px; 
-		}
-		#example_2_content{ 
-			margin-bottom: 70px; 
-		}
-		#example_3_content{ 
-			margin-bottom: 70px;
-		}
-		#example4{ 
-			margin-bottom: 70px; 
-		}
-		#myProgress {
-		  width: 70%;
-		  background-color: grey;
-	      -moz-border-radius: 25px;
-	      -webkit-border-radius: 25px;
-		  border-radius: 25px;
-		}
-
-		#myBar {
-		  width: 1%;
-		  height: 30px;
-		  background-color: #50bfbf;
-		  padding-top: 10px;
-		  border-top-left-radius: 20px;
-		  border-bottom-left-radius: 20px;
-		  max-width: 100%;
-		}
-
-		/*==================================================
-		 * Effect 2
-		 * ===============================================*/
-		.effect2
-		{
-		  position: relative;
-		}
-		.effect2:before, .effect2:after
-		{
-		  z-index: -1;
-		  position: absolute;
-		  content: "";
-		  bottom: 15px;
-		  left: 10px;
-		  width: 50%;
-		  top: 80%;
-		  max-width:300px;
-		  background: #777;
-		  -webkit-box-shadow: 0 15px 10px #777;
-		  -moz-box-shadow: 0 15px 10px #777;
-		  box-shadow: 0 15px 10px #777;
-		  -webkit-transform: rotate(-3deg);
-		  -moz-transform: rotate(-3deg);
-		  -o-transform: rotate(-3deg);
-		  -ms-transform: rotate(-3deg);
-		  transform: rotate(-3deg);
-		}
-		.effect2:after
-		{
-		  -webkit-transform: rotate(3deg);
-		  -moz-transform: rotate(3deg);
-		  -o-transform: rotate(3deg);
-		  -ms-transform: rotate(3deg);
-		  transform: rotate(3deg);
-		  right: 10px;
-		  left: auto;
-		}
-		.effect1{
-			-webkit-box-shadow: 0 10px 6px -6px #777;
-			-moz-box-shadow: 0 10px 6px -6px #777;
-		    box-shadow: 0 10px 6px -6px #777;
-		}
-		.card {
-		  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-		}
-		.box {
-			width:70%;
-			height:200px;
-			background:#FFF;
-			margin:40px auto;
-		}
-	</style>
+	<script src="script.js"></script>
+	<link href="style.css" rel="stylesheet"/>
 </head>
 <body onload="setUpTangle();">
 	<div class="mint_green_main_div card helvetica">
 		<div class="bluer_green_div card center"><span class="white header-font">Reactive Financial Documents</span>
 		<br>
-		<span class="white small">Research done by Natasha Simadibrata, Columbia College '21, under the guidance of Professor R.A. Farrokhnia, Executive Director of <a href="https://www8.gsb.columbia.edu/fintech/about">Advanced Projects & Applied Research in Fintech.</a></span>
+			<span class="white small">Research done by Sachin Kadyan (Department of CS, Columbia University) and Natasha Simadibrata (Columbia College '21) as part of <a href="https://www8.gsb.columbia.edu/fintech/about">Advanced Projects & Applied Research in Fintech</a> at Columbia Business School.</span>
 		</div>
 		<div id="introduction" class="dark_green">
 			This independent research is focused on the creation of dynamic financial documents infused with accessible language to aid individuals in improving their financial literacy.
@@ -572,7 +149,7 @@
 		<div id="example_4_content">
 			<div class="bold dark_green">Example 4:</div>
 			<br>
-			<span class="dark_green">We can also manipulate graphs/bars with Tangle:</span>
+			<span class="dark_green">We can also manipulate bars with Tangle:</span>
 			<div id="example4" class="emphasize-div effect1">
 				<p>My goal is to save $<span data-var="goal_for_month" class="TKAdjustableNumber" data-min="0" data-max="2000" data-step="5"></span> by the end of the month. I currently have $<span data-var="savings_sofar" class="TKAdjustableNumber" data-min="0" data-max="2000" data-step="5"></span> in my bank account so far.
 				<br>
@@ -584,13 +161,87 @@
 				</div>
 				<br>
 			</div>
-			<a href="#" onclick="window.location.reload(true);">Restart?</a>
+			<span class="dark_green">Oh wait, we can also use graphs to interact with content. Click <a href="javascript:showExample5()">here</a> to see...</span>
 			<br>
+		</div>
+		<div id="example_5_content">
+			<div class="bold dark_green">Example 5:</div>
+			<br>
+			<span class="dark green">Let us see how it looks like as a chart.</span>
+			<div id="example5" class="emphasize-div effect1">
+			<p> In this example graph, we will plot the function y=e^(0.01*multiplier*x)</p>
+			<p> Use value of multiplier = <span data-var="multiplier" class="TKAdjustableNumber"></span>. </p>
+			</div>
+			<div class="filterFreqPlot" style="margin: 0 100px;">
+				<canvas class="FilterFreqPlot" data-var="cookies" width="256" height="128"></canvas>
+			</div>
+			<p>See <a href="javascript:showExample6()">example 6</a></p>
+		</div>
+
+		<div id="example_6_content">
+			<div class="bold dark_green">Example 6:</div>
+			<br>
+			<span class="dark_green">Change the value of any parameter by swiping on it sideways, and see the graph change in realtime!</span>
+			<div id="example6" class="emphasize-div effect1">
+			<p>Purchase Price: <span data-var="purchase_price" class="TKAdjustableNumber" data-format="dollarsWithCommas"
+									data-min="0" data-max="1000000" data-step="10000"></span>.</p>
+			<p>Down Payment: <span data-var="down_payment" class="TKAdjustableNumber" data-format="dollarsWithCommas"
+									data-min="0" data-max="1000000" data-step="10000"></span>.</p>
+			<p>Mortgage Rate: <span data-var="mortgage_rate" class="TKAdjustableNumber" data-format="%.2f"
+									data-min="2.50" data-max="7.50" data-step="0.10"></span>%.</p>
+			<p>Mortgage Years: <span data-var="mortgage_years" class="TKAdjustableNumber"
+									data-min="5" data-max="30" data-step="5"></span> years.</p>
+			<p>Annual Tax: <span data-var="annual_tax" class="TKAdjustableNumber" data-format="dollarsWithCommas"
+									data-min="0" data-max="100000" data-step="500"></span>.</p>
+			<p>Monthly Utilities: <span data-var="monthly_utilities" class="TKAdjustableNumber" data-format="dollarsWithCommas"
+									data-min="0" data-max="5000" data-step="50"></span>.</p>
+			<p>Monthly Maintenance: <span data-var="monthly_maintenance" class="TKAdjustableNumber" data-format="dollarsWithCommas"
+									data-min="0" data-max="5000" data-step="50"></span>.</p>
+			<p>Annual Insurance: <span data-var="annual_insurance" class="TKAdjustableNumber" data-format="dollarsWithCommas"
+									data-min="0" data-max="5000" data-step="50"></span>.</p>
+			<br>
+			<p><b>Monthly Mortage:</b> <span data-var="monthly_mortgage" data-format="dollarsWithCommas"></span></p>
+			<p><b>Monthly Cashflow:</b> <span data-var="monthly_cashflow" data-format="dollarsWithCommas" ></span></p>
+			</div>
+			<span class="dark_green">In the charts below, you can see how the mortgage rate, purchase price, and down payment affect your monthly cash outflow. Horizontal line marks break even point for monthly cashflow. If your rent is above the line, it's better to buy!</span>
+			<div class="tabs">
+				<ul class="tabs-list">
+					<li class="active"><a href="#tab1">Tab1</a></li>
+					<li ><a href="#tab2">Tab 2</a></li>
+					<li ><a href="#tab3">Tab 3</a></li>
+				</ul>
+				<div id="tab1" class="mortgage_graph tab active" style="position: relative">
+					<h1>Mortgage Rate</h1>
+					<p>Moving the knob left/right changes the mortgage rate.</p>
+					<div style="position: relative">
+						<canvas class="MortgageGraph" data-var="" width="256" height="128"></canvas>
+						<div class="Knob" data-var="mortgage_rate"></div>
+					</div>
+				</div>
+				<div id="tab2" class="tab">
+					<h1>Purchase Price</h1>
+					<p>Moving the knob left/right changes the purchase price.</p>
+					<div style="position: relative">
+						<canvas class="MortgageGraph" data-var="" width="256" height="128"></canvas>
+						<div class="Knob" data-var="purchase_price"></div>
+					</div>
+				</div>
+				<div id="tab3" class="tab">
+					<h1>Down Payment</h1>
+					<p>Moving the knob left/right changes the down payment.</p>
+					<div style="position: relative">
+						<canvas class="MortgageGraph" data-var="" width="256" height="128"></canvas>
+						<div class="Knob" data-var="down_payment"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<br>
 		<br>
-
+		<a href="#" onclick="window.location.reload(true);">Restart?</a>
+		<br>
+		<br>
 
 	</div>
 

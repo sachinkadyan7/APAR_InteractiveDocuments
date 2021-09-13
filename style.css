@@ -1,0 +1,342 @@
+h1 {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 700;
+    line-height: 26.4px;
+}
+
+h3 {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 700;
+    line-height: 15.4px;
+}
+
+p {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+a:link {
+    color: #1f4a54;
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #1f4a54;
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #1f4a54;
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+a:active {
+    color: #1f4a54;
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.header-font {
+    font-size: 50px;
+    font-weight: bold;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.helvetica {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.helvetica-normal {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.white {
+    color: #ffffff;
+}
+
+.small {
+    font-size: 10px;
+}
+
+.lufthansa_blue {
+    color: #0A1D3D;
+}
+
+.lufthansa_old_orange {
+    color: #F9BA00;
+}
+
+.lufthansa_old_blue {
+    color: #00235F;
+}
+
+.mint_green {
+    color: #88d3d3;
+}
+
+.dark_green {
+    color: #194545;
+}
+
+.light_green {
+    color: #85bf4b;
+}
+
+.mint_green_main_div {
+    background-color: #88d3d3;
+    width: 70%;
+    margin: auto;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.bluer_green_div {
+    vertical-align: top;
+    background: #50a3bf;
+    height: auto;
+    margin-bottom: 50px;
+    padding: 30px;
+}
+
+.lufthansa_old_orange_div {
+    background-color: #F9BA00;
+    height: 100px;
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.lufthansa_old_orange_main_div {
+    background-color: #F9BA00;
+    width: 70%;
+    margin: auto;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.lufthansa_old_blue_div {
+    vertical-align: top;
+    background: #00235F;
+    height: auto;
+    margin-bottom: 20px;
+    padding: 30px;
+}
+
+.center {
+    text-align: center;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.emphasize-div {
+    width: 90%;
+    background: #ffffff;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+#introduction {
+    margin-bottom: 70px;
+}
+
+#example_1_content {
+    margin-bottom: 70px;
+}
+
+#example_2_content {
+    margin-bottom: 70px;
+}
+
+#example_3_content {
+    margin-bottom: 70px;
+}
+
+#example_4_content {
+    margin-bottom: 70px;
+}
+
+#example_5_content {
+    margin-bottom: 70px;
+}
+
+#myProgress {
+    width: 70%;
+    background-color: grey;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+    border-radius: 25px;
+}
+
+#myBar {
+    width: 1%;
+    height: 30px;
+    background-color: #50bfbf;
+    padding-top: 10px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    max-width: 100%;
+}
+
+/*Tabs*/
+.tabs{
+    width: 60%;
+    height: auto;
+    margin: 0 auto;
+}
+
+/* tab list item */
+.tabs .tabs-list{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+.tabs .tabs-list li{
+    width: 100px;
+    float: left;
+    margin: 0px;
+    margin-right: 2px;
+    padding: 10px 5px;
+    text-align: center;
+    background-color: cornflowerblue;
+    border-radius: 3px;
+}
+.tabs .tabs-list li:hover{
+    cursor: pointer;
+}
+.tabs .tabs-list li a{
+    text-decoration: none;
+    color: white;
+}
+
+/* Tab content section */
+.tabs .tab{
+    display:none;
+    width:96%;
+    min-height:250px;
+    height:auto;
+    border-radius:3px;
+    padding:20px 15px;
+    background-color:lavender;
+    color:darkslategray;
+    clear:both;
+}
+.tabs .tab h3{
+    border-bottom:3px solid cornflowerblue;
+    letter-spacing:1px;
+    font-weight:normal;
+    padding:5px;
+}
+.tabs .tab p{
+    line-height:20px;
+    letter-spacing: 1px;
+}
+
+/* When active state */
+.active{
+    display:block !important;
+}
+.tabs .tabs-list li.active{
+    background-color:lavender !important;
+    color:black !important;
+}
+.active a{
+    color:black !important;
+}
+
+/* media query */
+@media screen and (max-width:360px){
+    .tabs{
+        margin:0;
+        width:96%;
+    }
+    .tabs .tabs-list li{
+        width:80px;
+    }
+}
+/*==================================================
+ * Effect 2
+ * ===============================================*/
+.effect2 {
+    position: relative;
+}
+
+.effect2:before, .effect2:after {
+    z-index: -1;
+    position: absolute;
+    content: "";
+    bottom: 15px;
+    left: 10px;
+    width: 50%;
+    top: 80%;
+    max-width: 300px;
+    background: #777;
+    -webkit-box-shadow: 0 15px 10px #777;
+    -moz-box-shadow: 0 15px 10px #777;
+    box-shadow: 0 15px 10px #777;
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    -o-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+}
+
+.effect2:after {
+    -webkit-transform: rotate(3deg);
+    -moz-transform: rotate(3deg);
+    -o-transform: rotate(3deg);
+    -ms-transform: rotate(3deg);
+    transform: rotate(3deg);
+    right: 10px;
+    left: auto;
+}
+
+.effect1 {
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
+}
+
+.card {
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.box {
+    width: 70%;
+    height: 200px;
+    background: #FFF;
+    margin: 40px auto;
+}
