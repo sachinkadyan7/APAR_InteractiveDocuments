@@ -135,8 +135,6 @@ function setUpTangle() {
     element_cash_flow.style.display = "none";
     var four = document.getElementById("example_4_content");
     four.style.display = "none";
-    var five = document.getElementById("example_5_content");
-    five.style.display = "none";
     var six = document.getElementById("example_6_content");
     six.style.display = "none";
 
@@ -203,29 +201,6 @@ function setUpTangle() {
 
             this.monthly_mortgage_2 = calculateMortgage(this.purchase_price_2, this.down_payment_2, this.mortgage_rate_2, this.mortgage_years_2)
             this.monthly_cashflow_2 = calculateMonthlyCashOutflow(this.monthly_mortgage_2, this.annual_tax_2, this.monthly_utilities_2, this.monthly_maintenance_2, this.annual_insurance_2)
-        }
-    });
-    var element5 = document.getElementById("example_5_content");
-    var tangle = new Tangle(element5, {
-        initialize: function () {
-            this.multiplier = 1;
-            console.log('Initialized example 5');
-        },
-        update: function () {
-            el = element5.getElementsByTagName("canvas")[0];
-            var canvasWidth = el.get("width");
-            var canvasHeight = el.get("height");
-            var ctx = el.getContext("2d");
-
-
-            ctx.fillStyle = "#fff";
-            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-            ctx.fillStyle = "#555";
-            for (var x = 0; x < canvasWidth; x++) {
-                var y = Math.exp(this.multiplier*0.01*x);
-                ctx.fillRect(x, canvasHeight - y, 1, y);
-            }
         }
     });
     var element6 = document.getElementById("example_6_content");
@@ -562,15 +537,6 @@ function showCashFlow() {
 function showExample4() {
     var x = document.getElementById("example_4_content");
     if (x.style.display === "none") {
-        $(x).fadeIn("slow");
-    } else {
-        $(x).fadeOut("slow");
-    }
-}
-
-function showExample5() {
-    var x = document.getElementById("example_5_content");
-    if(x.style.display === "none") {
         $(x).fadeIn("slow");
     } else {
         $(x).fadeOut("slow");
