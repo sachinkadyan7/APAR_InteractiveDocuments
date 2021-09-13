@@ -7,39 +7,6 @@ var limits = new Map([
     ["down_payment_end", 1000000]
 ])
 
-
-// function calculateMortgage(purchase_price_text, down_payment_text, mortgage_rate_text, mortgage_years_text) {
-//     var purchase_price = parseFloat(purchase_price_text);
-//     var down_payment = parseFloat(down_payment_text);
-//     var mortgage_rate_pre = parseFloat(mortgage_rate_text);
-//     var mortgage_rate = mortgage_rate_pre / 100;
-//     var mortgage_years = parseFloat(mortgage_years_text);
-//
-//     var start1 = parseFloat(mortgage_rate / 12);
-//     var start2 = parseFloat(start1 + 1);
-//     var start3 = parseFloat(mortgage_years * 12);
-//     var start4 = parseFloat(start2 ** (-1 * start3));
-//     var start5 = parseFloat(1 - start4);
-//     var start6 = parseFloat(start1 / start5);
-//     var ending = parseFloat(start6 * (purchase_price - down_payment));
-//     var rounded_ending = ending.round(2);
-//
-//     return rounded_ending;
-// }
-//
-// function calculateMonthlyCashOutflow(monthly_mortgage_text, annual_tax_text, monthly_utilities_text, monthly_maintenance_text, annual_insurance_text) {
-//     var tax_annual = parseFloat(annual_tax_text);
-//     var tax_monthly = tax_annual / 12;
-//     var utilities_monthly = parseFloat(monthly_utilities_text);
-//     var maintenance_monthly = parseFloat(monthly_maintenance_text);
-//     var insurance_annual = parseFloat(annual_insurance_text);
-//     var insurance_monthly = insurance_annual / 12;
-//     var monthly_mortgage = parseFloat(monthly_mortgage_text);
-//     var monthly_cashflow = monthly_mortgage + tax_monthly + utilities_monthly + maintenance_monthly + insurance_monthly;
-//
-//     return monthly_cashflow.round(2);
-// }
-
 function calculateMortgage(purchase_price, down_payment, mortgage_rate_pre, mortgage_years) {
     var mortgage_rate = mortgage_rate_pre / 100;
 
@@ -231,17 +198,7 @@ function setUpTangle() {
             // TKNumberInput field as well!
             // All of these text->float and float->text conversions will be eliminated if we can find a way to add formatters for
             // TKNumberField (which it doesn't have currently because it has its own update() method).
-            console.log("All Params text: ", typeof (this.purchase_price_text), this.down_payment_text,
-                this.mortgage_rate_text, this.mortgage_years_text, this.annual_tax_text,
-                this.monthly_utilities_text, this.monthly_maintenance_text, this.annual_insurance_text)
-            // this.purchase_price = parseFloat(this.purchase_price_text.replaceAll(',',''));
-            // this.down_payment = parseFloat(this.down_payment_text.replaceAll(',',''));
-            // this.mortgage_rate = parseFloat(this.mortgage_rate_text); // mortgage_rate is TKAdjustableNumber and is updated by Tangle
-            // this.mortgage_years = parseFloat(this.mortgage_years_text); // mortgage_years is TKAdjustableNumber and is updated by Tangle
-            // this.annual_tax = parseFloat(this.annual_tax_text.replaceAll(',',''));
-            // this.monthly_utilities = parseFloat(this.monthly_utilities_text.replaceAll(',',''));
-            // this.monthly_maintenance = parseFloat(this.monthly_maintenance_text.replaceAll(',',''));
-            // this.annual_insurance = parseFloat(this.annual_insurance_text.replaceAll(',',''));
+
             this.monthly_mortgage = calculateMortgage(this.purchase_price, this.down_payment,
                 this.mortgage_rate, this.mortgage_years);
             this.monthly_mortgage_text = this.monthly_mortgage
